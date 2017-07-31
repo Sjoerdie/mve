@@ -23,6 +23,28 @@ MVE_NAMESPACE_BEGIN
 struct CameraInfo
 {
 public:
+
+    /* Intrinsic camera parameters. */
+    float fx;
+    float fy;
+    float cx;
+    float cy;
+    /** Focal length. */
+    float flen;
+    /** Principal point in x- and y-direction. */
+    float ppoint[2];
+    /** Pixel aspect ratio pixel_width / pixel_height. */
+    float paspect;
+    /** Image distortion parameters. */
+    float dist[2];
+
+    /* Extrinsic camera parameters. */
+
+    /** Camera translation vector. Camera position p = -ROT^T * trans. */
+    float trans[3];
+    /** Camera rotation which transforms from world to cam. */
+    float rot[9];
+
     /**
      * Creates a new camera and invalidates it (sets 'flen' to 0.0f).
      */
@@ -91,7 +113,12 @@ public:
      * For h > w:  x' = x * h - (h - w) / 2  and  y' = y * h.
      */
     void fill_calibration (float* mat, float width, float height) const;
-
+	void updateFocalLength(float fx_, float fy_, float cx_, float cy_){
+        fx = fx_;
+        fy = fy_;
+        cx = cx_;
+        cy = cy_;
+    };
     /**
      * Stores 3x3 inverse calibration (or inverse projection) matrix.
      * The matrix projects a point (x, y, 1) from the image plane into
@@ -149,24 +176,6 @@ public:
      */
     void debug_print (void) const;
 
-public:
-    /* Intrinsic camera parameters. */
-
-    /** Focal length. */
-    float flen;
-    /** Principal point in x- and y-direction. */
-    float ppoint[2];
-    /** Pixel aspect ratio pixel_width / pixel_height. */
-    float paspect;
-    /** Image distortion parameters. */
-    float dist[2];
-
-    /* Extrinsic camera parameters. */
-
-    /** Camera translation vector. Camera position p = -ROT^T * trans. */
-    float trans[3];
-    /** Camera rotation which transforms from world to cam. */
-    float rot[9];
 };
 
 MVE_NAMESPACE_END

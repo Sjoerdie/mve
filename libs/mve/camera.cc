@@ -124,55 +124,76 @@ CameraInfo::set_transformation (float const* mat)
 void
 CameraInfo::fill_calibration (float* mat, float width, float height) const
 {
-    float dim_aspect = width / height;
-    float image_aspect = dim_aspect * this->paspect;
-    float ax, ay;
-    if (image_aspect < 1.0f) /* Portrait. */
-    {
-        ax = this->flen * height / this->paspect;
-        ay = this->flen * height;
-    }
-    else /* Landscape. */
-    {
-        ax = this->flen * width;
-        ay = this->flen * width * this->paspect;
-    }
-
-    mat[0] =   ax; mat[1] = 0.0f; mat[2] = width * this->ppoint[0];
-    mat[3] = 0.0f; mat[4] =   ay; mat[5] = height * this->ppoint[1];
-    mat[6] = 0.0f; mat[7] = 0.0f; mat[8] = 1.0f;
+ ////   float dim_aspect = width / height;
+	////std::cout <<"dim aspect = "<< dim_aspect << std::endl;
+ ////   float image_aspect = dim_aspect * this->paspect;
+	////std::cout << "dim image_aspect = " << image_aspect << std::endl;
+ ////   float ax, ay;
+ ////   if (image_aspect < 1.0f) /* Portrait. */
+ ////   {
+ ////       ax = this->flen * height / this->paspect;
+ ////       ay = this->flen * height;
+ ////   }
+ ////   else /* Landscape. */
+ ////   {
+ ////       ax = this->flen * width;
+ ////       ay = this->flen * width * this->paspect;
+ ////   }
+	////std::cout << "ax = " << ax << std::endl;
+	////std::cout << "ay = " << ay << std::endl;
+	/*float ax;
+	float ay;
+	ax = 695.216;
+	ay = 693.848;
+    mat[0] =   ax; mat[1] = 0.0f; mat[2] = 220.462;
+    mat[3] = 0.0f; mat[4] =   ay; mat[5] = 390.642;
+    mat[6] = 0.0f; mat[7] = 0.0f; mat[8] = 1.0f;*/
+	/*float ax;
+	float ay;
+	ax = 1195.47;
+	ay = 1195.47;
+	mat[0] = ax; mat[1] = 0.0f; mat[2] = 956.5;
+	mat[3] = 0.0f; mat[4] = ay; mat[5] = 538;
+	mat[6] = 0.0f; mat[7] = 0.0f; mat[8] = 1.0f;*/
+	float ax;
+	float ay;
+	ax = fx;
+	ay = fy;
+	mat[0] = ax; mat[1] = 0.0f; mat[2] = cx;
+	mat[3] = 0.0f; mat[4] = ay; mat[5] = cy;
+	mat[6] = 0.0f; mat[7] = 0.0f; mat[8] = 1.0f;
 }
 
-/* ---------------------------------------------------------------- */
-
-void
-CameraInfo::fill_gl_projection (float* mat, float width, float height,
-    float znear, float zfar) const
-{
-    float dim_aspect = width / height;
-    float image_aspect = dim_aspect * this->paspect;
-    float ax, ay;
-    if (image_aspect < 1.0f) /* Portrait. */
-    {
-        ax = this->flen / image_aspect;
-        ay = this->flen;
-    }
-    else /* Landscape */
-    {
-        ax = this->flen;
-        ay = this->flen * image_aspect;
-    }
-
-    std::fill(mat, mat + 16, 0.0f);
-
-    mat[4 * 0 + 0] = 2.0f * ax;
-    mat[4 * 0 + 2] = 2.0f * (this->ppoint[0] - 0.5f);
-    mat[4 * 1 + 1] = 2.0f * ay;
-    mat[4 * 1 + 2] = 2.0f * (this->ppoint[1] - 0.5f);
-    mat[4 * 2 + 2] = -(zfar + znear) / (zfar - znear);
-    mat[4 * 2 + 3] = -2.0f * zfar * znear / (zfar - znear);
-    mat[4 * 3 + 2] = -1.0f;
-}
+///* ---------------------------------------------------------------- */
+//
+//void
+//CameraInfo::fill_gl_projection (float* mat, float width, float height,
+//    float znear, float zfar) const
+//{
+//    float dim_aspect = width / height;
+//    float image_aspect = dim_aspect * this->paspect;
+//    float ax, ay;
+//    if (image_aspect < 1.0f) /* Portrait. */
+//    {
+//        ax = this->flen / image_aspect;
+//        ay = this->flen;
+//    }
+//    else /* Landscape */
+//    {
+//        ax = this->flen;
+//        ay = this->flen * image_aspect;
+//    }
+//
+//    std::fill(mat, mat + 16, 0.0f);
+//
+//    mat[4 * 0 + 0] = 2.0f * ax;
+//    mat[4 * 0 + 2] = 2.0f * (this->ppoint[0] - 0.5f);
+//    mat[4 * 1 + 1] = 2.0f * ay;
+//    mat[4 * 1 + 2] = 2.0f * (this->ppoint[1] - 0.5f);
+//    mat[4 * 2 + 2] = -(zfar + znear) / (zfar - znear);
+//    mat[4 * 2 + 3] = -2.0f * zfar * znear / (zfar - znear);
+//    mat[4 * 3 + 2] = -1.0f;
+//}
 
 /* ---------------------------------------------------------------- */
 
@@ -180,46 +201,54 @@ void
 CameraInfo::fill_inverse_calibration (float* mat,
     float width, float height) const
 {
-    float dim_aspect = width / height;
-    float image_aspect = dim_aspect * this->paspect;
-    float ax, ay;
-    if (image_aspect < 1.0f) /* Portrait. */
-    {
-        ax = this->flen * height / this->paspect;
-        ay = this->flen * height;
-    }
-    else /* Landscape. */
-    {
-        ax = this->flen * width;
-        ay = this->flen * width * this->paspect;
-    }
-
-    mat[0] = 1.0f / ax; mat[1] = 0.0f; mat[2] = -width * this->ppoint[0] / ax;
-    mat[3] = 0.0f; mat[4] = 1.0f / ay; mat[5] = -height * this->ppoint[1] / ay;
-    mat[6] = 0.0f; mat[7] = 0.0f;      mat[8] = 1.0f;
+    ////float dim_aspect = width / height;
+    ////float image_aspect = dim_aspect * this->paspect;
+    ////float ax, ay;
+    ////if (image_aspect < 1.0f) /* Portrait. */
+    ////{
+    ////    ax = this->flen * height / this->paspect;
+    ////    ay = this->flen * height;
+    ////}
+    ////else /* Landscape. */
+    ////{
+    ////    ax = this->flen * width;
+    ////    ay = this->flen * width * this->paspect;
+    ////}
+	float ax;
+	float ay;
+	ax = fx;
+	ay = fy;
+	   mat[0] = 1.0f / ax; mat[1] = 0.0f; mat[2] = -cx / ax;
+	   mat[3] = 0.0f; mat[4] = 1.0f / ay; mat[5] = -cy / ay;
+	   mat[6] = 0.0f; mat[7] = 0.0f;      mat[8] = 1.0f;
+	//ax = 695.216;
+	//ay = 693.848;
+ //   mat[0] = 1.0f / ax; mat[1] = 0.0f; mat[2] = -220.462 / ax;
+ //   mat[3] = 0.0f; mat[4] = 1.0f / ay; mat[5] = -390.642 / ay;
+ //   mat[6] = 0.0f; mat[7] = 0.0f;      mat[8] = 1.0f;
 }
-
-/* ---------------------------------------------------------------- */
-
-void
-CameraInfo::fill_reprojection (CameraInfo const& destination,
-    float src_width, float src_height, float dst_width, float dst_height,
-    float* mat, float* vec) const
-{
-    math::Matrix3f dst_K, dst_R, src_Ri, src_Ki;
-    math::Vec3f dst_t, src_t;
-    destination.fill_calibration(dst_K.begin(), dst_width, dst_height);
-    destination.fill_world_to_cam_rot(dst_R.begin());
-    destination.fill_camera_translation(dst_t.begin());
-    this->fill_cam_to_world_rot(src_Ri.begin());
-    this->fill_inverse_calibration(src_Ki.begin(), src_width, src_height);
-    this->fill_camera_translation(src_t.begin());
-
-    math::Matrix3f ret_mat = dst_K * dst_R * src_Ri * src_Ki;
-    math::Vec3f ret_vec = dst_K * (dst_t - dst_R * src_Ri * src_t);
-    std::copy(ret_mat.begin(), ret_mat.end(), mat);
-    std::copy(ret_vec.begin(), ret_vec.end(), vec);
-}
+//
+///* ---------------------------------------------------------------- */
+//
+//void
+//CameraInfo::fill_reprojection (CameraInfo const& destination,
+//    float src_width, float src_height, float dst_width, float dst_height,
+//    float* mat, float* vec) const
+//{
+//    math::Matrix3f dst_K, dst_R, src_Ri, src_Ki;
+//    math::Vec3f dst_t, src_t;
+//    destination.fill_calibration(dst_K.begin(), dst_width, dst_height);
+//    destination.fill_world_to_cam_rot(dst_R.begin());
+//    destination.fill_camera_translation(dst_t.begin());
+//    this->fill_cam_to_world_rot(src_Ri.begin());
+//    this->fill_inverse_calibration(src_Ki.begin(), src_width, src_height);
+//    this->fill_camera_translation(src_t.begin());
+//
+//    math::Matrix3f ret_mat = dst_K * dst_R * src_Ri * src_Ki;
+//    math::Vec3f ret_vec = dst_K * (dst_t - dst_R * src_Ri * src_t);
+//    std::copy(ret_mat.begin(), ret_mat.end(), mat);
+//    std::copy(ret_vec.begin(), ret_vec.end(), vec);
+//}
 
 /* ---------------------------------------------------------------- */
 
@@ -247,16 +276,24 @@ void
 CameraInfo::set_translation_from_string (std::string const& trans_string)
 {
     std::stringstream ss(trans_string);
-    for (int i = 0; i < 3; ++i)
-        ss >> this->trans[i];
+	for (int i = 0; i < 3; ++i)
+	{
+		ss >> this->trans[i];
+		std::cout << this->trans[i] << std::endl;
+	}
+       
 }
 
 void
 CameraInfo::set_rotation_from_string (std::string const& rot_string)
 {
     std::stringstream ss(rot_string);
-    for (int i = 0; i < 9; ++i)
-        ss >> this->rot[i];
+	for (int i = 0; i < 9; ++i)
+	{
+		ss >> this->rot[i];
+		std::cout << this->rot[i] << std::endl;
+	}
+       
 }
 
 /* ---------------------------------------------------------------- */

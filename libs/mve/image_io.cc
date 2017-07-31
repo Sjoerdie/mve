@@ -18,7 +18,7 @@
 #ifndef MVE_NO_PNG_SUPPORT
 #   include <png.h>
 #endif
-
+#define MVE_NO_JPEG_SUPPORT 1
 #ifndef MVE_NO_JPEG_SUPPORT
 /* Include windows.h before jpeglib.h to prevent INT32 typedef collision. */
 #   if defined(_WIN32)
@@ -27,6 +27,7 @@
 #   include <jpeglib.h>
 #endif
 
+#define MVE_NO_TIFF_SUPPORT 1
 #ifndef MVE_NO_TIFF_SUPPORT
 #   include <tiff.h>
 #   include <tiffio.h>
