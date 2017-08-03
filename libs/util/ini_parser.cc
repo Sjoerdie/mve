@@ -10,7 +10,7 @@
 #include <sstream>
 
 #include "util/exception.h"
-#include "util/string.h"
+#include "util/mve-string.h"
 #include "util/ini_parser.h"
 
 UTIL_NAMESPACE_BEGIN

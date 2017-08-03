@@ -13,7 +13,7 @@
 #include <istream>
 #include <string>
 
-#include "util/endian.h"
+#include "util/mve-endian.h"
 #include "mve/defines.h"
 #include "mve/image.h"
 #include "mve/camera.h"

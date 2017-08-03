@@ -14,7 +14,7 @@
 #include <fstream>
 
 #include "util/file_system.h"
-#include "util/string.h"
+#include "util/mve-string.h"
 #include "util/exception.h"
 #include "math/matrix.h"
 #include "math/vector.h"

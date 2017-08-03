@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-#include "util/string.h"
+#include "util/mve-string.h"
 #include "mve/mesh.h"
 #include "mve/mesh_io.h"
 #include "mve/mesh_io_ply.h"

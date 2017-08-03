@@ -34,8 +34,8 @@
 #include <cmath>
 #include <limits>
 
-#include "util/endian.h"
-#include "util/string.h"
+#include "util/mve-endian.h"
+#include "util/mve-string.h"
 #include "mve/image_exif.h"
 
 MVE_NAMESPACE_BEGIN
